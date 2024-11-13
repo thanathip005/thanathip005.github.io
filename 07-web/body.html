@@ -1,0 +1,145 @@
+<div class="jumbotron p-5 bg-primary text-white">
+  <video src="https://cdn.pixabay.com/video/2021/10/10/91562-629172467_large.mp4" autoplay loop muted></video>
+  <div class="header_text">
+    <h1>Thanathip kambankong</h1>
+    <p>IT rayong</p>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="page1.html">page1</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="page2.html">page2</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="page3.html">page3</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li>
+      </ul>
+      <a  id="log_info"></a>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+        <button id="btn_login" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#exampleModal" type="button">
+          Login
+        </button>
+        <button id="btn_logout" class="btn btn-success" type="submit" onclick="check_logout()">Logout</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          onclick="clearinput()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-floating mb-3">
+          <input type="user" id="user" class="form-control" placeholder />
+          <label for="user">Username</label>
+        </div>
+        <div class="form-floating">
+          <input type="pass" id="pass" class="form-control" placeholder />
+          <label for="pass">Password</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="clearinput()">
+          Close
+        </button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" onclick="check_login()">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  //let user = 'non'
+  //let pass = '1234'
+    if(sessionStorage.getItem('user') != null){
+          document.getElementById('log_info').innerHTML = 
+          'ผู้ใช้ชื่อ'+ sessionStorage.getItem('user') + 'กำลังใช้งาน '
+
+          document.getElementById('btn_login').style.display = 'none'
+        
+        }else{
+          document.getElementById('btn_logout').style.display = 'none'
+        }
+
+  function check_login() {
+    if (
+      document.getElementById("user").value != null &&
+      document.getElementById("pass").value
+    ) {
+      if (
+        document.getElementById("user").value == localStorage.getItem("user") &&
+        document.getElementById("pass").value == localStorage.getItem("pass")
+      ) {
+        sessionStorage.setItem("user", document.getElementById("user").value)
+
+        document.getElementById('log_info').innerHTML = 
+          'ผู้ใช้ชื่อ'+ sessionStorage.getItem('user') + 'กำลังใช้งาน '
+
+
+        alert("Login OK");
+        document.getElementById('btn_login').style.display = 'none'
+        document.getElementById('btn_logout').style.display = 'block'
+      } else {
+        alert("Login Failed");
+      }
+      clearinput();
+      // document.getElementById('user').value = null
+      // document.getElementById('pass').value = null
+    }
+  }
+
+  function clearinput() {
+    document.getElementById("user").value = null;
+    document.getElementById("pass").value = null;
+  }
+
+  function check_logout() {
+    sessionStorage.removeItem('user')
+    // location.href = 'index.html'
+    document.getElementById('log_info').innerHTML = ''
+    document.getElementById('btn_login').style.display = 'block'
+    document.getElementById('btn_logout').style.display = 'none'
+  }
+</script>

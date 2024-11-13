@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+
+        if (sessionStorage.getItem('user') == null) {
+            alert('กรุณาล็อกอินก่อนเข้าใช้งาน')
+            location.href = './'
+        }
+
+        $(function () {
+            $('head').load('head.html')
+            $('#bodys').load('body.html')
+            $('#foots').load('foot.html')
+
+        })
+
+    </script>
+    <title>Page2</title>
+
+    <script>
+        sid = []
+        sname = []
+        dept = []
+
+        if (localStorage.getItem('sid') != null &&
+            localStorage.getItem('sname') != null &&
+            localStorage.getItem('dept') != null) {
+            sid = JSON.parse(localStorage.getItem('sid'))
+            sname = JSON.parse(localStorage.getItem('sname'))
+            dept = JSON.parse(localStorage.getItem('dept'))
+        }
+
+    </script>
+
+</head>
+
+<body onload="load_data()">
+    <div id="bodys"></div>
+
+    <div class="container d-flex flex-wrap justify-content-center gap-5 mt-5">
+        <!-- <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 80px;">     -->
+        <div class="card" style="width: 50rem;">
+            <img src="https://img.lovepik.com/background/20211021/large/lovepik-blue-banner-background-image_500452484.jpg&quot;
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Student System</h5>
+                <p class="card-text">
+                    <button type="button" class="btn btn-primary w-25" data-bs-toggle="modal"
+                        data-bs-target="#Modal_Student">Add Data</button>
+                </p>
+                <table id="tb_student"
+                    class="table table-bordered border border-dark border-3 table-hover table-striped">
+                    <thead class="table-success border-dark">
+                        <tr>
+                            <th>รหัสนักศึกษา</th>
+                            <th>ชื่อ - สกุล</th>
+                            <th>แผนกวิชา</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="Modal_Student" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Student Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="sid" placeholder="">
+                        <label>Student ID</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="sname" placeholder="">
+                        <label>Full Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="dept" aria-label="Default select example">
+                            <option selected>Choose Department</option>
+                            <option value="ช่างกลโรงงาน">ช่างกลโรงงาน</option>
+                            <option value="ช่างยนต์">ช่างยนต์</option>
+                            <option value="เทคโนโลยีสารสนเทศ">เทคโนโลยีสารสนเทศ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary w-25" onclick="click_submit()">Submit</button>
+                    <button type="reset" class="btn btn-warning w-25" data-bs-dismiss="modal" onclick="clear_form()">Reset</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let tb_student = document.querySelector('#tb_student tbody')
+        let row = null
+        let col = null
+
+        function load_data() {
+          tb_student.innerHTML = ''  //เคลียร์ข้อมูลในตาราง
+          for (let i = 0; i < sid.length; i++) {
+                row = document.createElement('tr')
+                col = document.createElement('td')
+                col.textContent = sid[i]
+                row.appendChild(col)
+                col = document.createElement('td')
+                col.textContent = sname[i]
+                row.appendChild(col)
+                col = document.createElement('td')
+                col.textContent = dept[i]
+                row.appendChild(col)
+                tb_student.appendChild(row)
+            }
+        }
+
+        function click_submit() {
+
+            sid.push(document.getElementById('sid').value)
+            sname.push(document.getElementById('sname').value)
+            dept.push(document.getElementById('dept').value)
+
+            localStorage.setItem('sid', JSON.stringify(sid))
+            localStorage.setItem('sname', JSON.stringify(sname))
+            localStorage.setItem('dept', JSON.stringify(dept))
+
+            clear_form()
+            load_data()
+
+            //location.href = 'page1.html'
+
+        }
+
+        function clear_form() {
+            document.getElementById('sid').value = ''
+            document.getElementById('sname').value = ''
+            document.getElementById('dept').selectedIndex = 0
+        }
+
+
+
+
+    </script>
+
+    <div id="foots"></div>
+</body>
+
+</html>
